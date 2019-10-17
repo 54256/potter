@@ -26,7 +26,7 @@
 	<g v-for="s,i in horizontalsum" :transform="transY(i)"><text v-for="p,j in s" :x="-j*20">{{p}}</text></g>
       </svg>
       <div>
-	<button @click="message"> できた </button>
+	<button @click="message"> 完成 </button>
       </div>
       <div>
 	<button @click="solve(0,0)"> 降参 </button>
@@ -37,3 +37,4 @@
     
   </body>
 </html>
+
