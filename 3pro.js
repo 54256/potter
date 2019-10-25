@@ -87,16 +87,17 @@ app=new Vue({
 	},
 
 	solve: function(i,j){
+	    console.log([i,j]);
+	    let sumsH=this.horizontalsum;//水平方向(→)のラベルが入った配列	    	    
+	    let sumsV=this.verticalsum;	//縦方向(↓)のラベルが入った配列    	    
 	    
-	    let sumsH=this.horizontalsum;	    	    
-	    let sumsV=this.verticalsum;	    	    
-
-	    if(i>=5){
+	    
+	    if(i>4){
 		console.log(this.board);
 		return;
 	    }
 	    for(let d of [0,1]){//dに０か１を入れて作業しなさい
-	//	console.log([i,j]);
+		
 		this.board[i][j]=d;
 		if(j<4){
 		    this.solve(i,j+1);
@@ -106,15 +107,19 @@ app=new Vue({
 		    for(let bn of this.board[i]){
 			if(bn == 1){
 			    length++;
-			}else if(length>0){
+			}else if(bn==0&&length>0){
 			    sumsHC.push(length);
 			    length=0;
 			}			
 		    }
-		    console.log(sumsHC);
-		    console.log(this.board[i]);
-		    if(JSON.stringify(sumsH[i])==JSON.stringify(sumsHC)){	   
-			this.solve(i+1,0)
+		    if(length>0){
+			sumsHC.push(length);
+		    }
+		    if(JSON.stringify(sumsH[i])==JSON.stringify(sumsHC)){
+			//console.log(this.board[i]);
+			//console.log(sumsHC);
+			this.solve(i+1,0);
+			
 		    }else{
 			return;
 		    }
