@@ -87,19 +87,45 @@ app=new Vue({
 	},
 
 	solve: function(i,j){
-	    console.log([i,j]);
+	    //console.log([i,j]);
 	    let sumsH=this.horizontalsum;//水平方向(→)のラベルが入った配列	    	    
 	    let sumsV=this.verticalsum;	//縦方向(↓)のラベルが入った配列    	    
 	    
 	    
-	    if(i>4){
-		console.log(this.board);
+	    //if(i>4){
+	    if(i>=this.board.length){ // boardのサイズが変わっても動くようにします。
+		//console.log(this.board);
+
+		// 行だけでなく列についてもチェック
+		for(let y in this.board[0]){
+		    let sumsVC = [];
+		    let length =0;
+		    for(let x in this.board ){
+			if(this.board[x][y] == 1){
+			    length++;
+			}else if(length>0){
+			    sumsVC.push(length);
+			    length=0;
+			}
+		    }
+		    if(length>0){
+			sumsVC.push(length);
+		    }
+		    if(JSON.stringify(sumsV[y])!=JSON.stringify(sumsVC)){//チェックが失敗
+			return;
+		    }
+		}
+		// チェックが成功
+		for (let k = 0; k<5; k++){
+		    console.log(this.board[k]);
+		}
 		return;
 	    }
 	    for(let d of [0,1]){//dに０か１を入れて作業しなさい
 		
 		this.board[i][j]=d;
-		if(j<4){
+		//if(j<4){
+		if(j<this.board[i].length-1){ //boadのサイズに合わせた対応
 		    this.solve(i,j+1);
 		}else{//i行目が終わったら
 		    let length =0;
@@ -107,7 +133,7 @@ app=new Vue({
 		    for(let bn of this.board[i]){
 			if(bn == 1){
 			    length++;
-			}else if(bn==0&&length>0){
+			}else if(length>0){
 			    sumsHC.push(length);
 			    length=0;
 			}			
@@ -120,9 +146,9 @@ app=new Vue({
 			//console.log(sumsHC);
 			this.solve(i+1,0);
 			
-		    }else{
-			return;
-		    }
+		    }//else{ ここが余計でした。
+		    //return;
+		    //}
 		}
 	    }
 
